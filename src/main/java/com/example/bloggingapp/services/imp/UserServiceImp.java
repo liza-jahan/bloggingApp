@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,17 +39,24 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto getUserId(Integer userId) {
-        return null;
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
+
+
+        return this.userToDto(user);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        return null;
+        List<User> users = this.userRepo.findAll();
+        List<UserDto> userDtos = users.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
+
+        return userDtos;
     }
 
     @Override
     public void deleteUser(Integer userId) {
-
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
+        this.userRepo.delete(user);
     }
 
     private User dtoToUser(UserDto userdto) {
