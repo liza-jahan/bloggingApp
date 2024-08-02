@@ -1,5 +1,6 @@
 package com.example.bloggingapp.controllers;
 
+import com.example.bloggingapp.payloads.ApiResponse;
 import com.example.bloggingapp.payloads.UserDto;
 import com.example.bloggingapp.services.UserService;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -35,9 +37,18 @@ public class UserController {
 
     //Delete user
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer uid) {
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid) {
         this.userService.deleteUser(uid);
-        return new ResponseEntity<>(Map.of("message", "User Deleted Successfully"), HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
     }
+
     //GET - all user
+    @GetMapping("/")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return ResponseEntity.ok(this.userService.getAllUsers());
+    }
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getSingleUsers(@PathVariable Integer userId) {
+        return ResponseEntity.ok(this.userService.getUserId(userId));
+    }
 }
