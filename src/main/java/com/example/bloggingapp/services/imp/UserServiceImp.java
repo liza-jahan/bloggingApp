@@ -6,6 +6,7 @@ import com.example.bloggingapp.payloads.UserDto;
 import com.example.bloggingapp.repository.UserRepo;
 import com.example.bloggingapp.services.UserService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class UserServiceImp implements UserService {
 
     private final UserRepo userRepo;
+    private final ModelMapper modelMapper;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -60,24 +62,32 @@ public class UserServiceImp implements UserService {
     }
 
     private User dtoToUser(UserDto userdto) {
-        User user = new User();
-        user.setId(userdto.getId());
-        user.setName(userdto.getName());
-        user.setEmail(userdto.getEmail());
-        user.setPassword(userdto.getPassword());
-        user.setAbout(user.getAbout());
+        User user=this.modelMapper.map(userdto,User.class);
+
+         //  or
+
+//        User user = new User();
+//        user.setId(userdto.getId());
+//        user.setName(userdto.getName());
+//        user.setEmail(userdto.getEmail());
+//        user.setPassword(userdto.getPassword());
+//        user.setAbout(user.getAbout());
 
         return user;
     }
 
     public UserDto userToDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setEmail(user.getEmail());
-        userDto.setAbout(user.getAbout());
+
+        UserDto userDto = this.modelMapper.map(user, UserDto.class);
+
+     // or
+//        UserDto userDto = new UserDto();
+//        userDto.setId(user.getId());
+//        userDto.setName(user.getName());
+//        userDto.setEmail(user.getEmail());
+//        userDto.setPassword(user.getPassword());
+//        userDto.setEmail(user.getEmail());
+//        userDto.setAbout(user.getAbout());
 
         return userDto;
     }
