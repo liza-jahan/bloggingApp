@@ -25,7 +25,7 @@ public class PostServiceImp implements PostService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public Post createPost(PostDto postDto, Integer userId, Integer categoryId) {
+    public PostDto createPost(PostDto postDto, Integer userId, Integer categoryId) {
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "userId", userId));
         Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "categoryId", categoryId));
 
@@ -38,7 +38,7 @@ public class PostServiceImp implements PostService {
         Post newPost = this.postRepo.save(post);
 
 
-        return this.modelMapper.map(newPost, Post.class);
+        return this.modelMapper.map(newPost, PostDto.class);
     }
 
     @Override
