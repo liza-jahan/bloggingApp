@@ -2,6 +2,7 @@ package com.example.bloggingapp.services;
 
 import com.example.bloggingapp.entites.Post;
 import com.example.bloggingapp.payloads.PostDto;
+import com.example.bloggingapp.payloads.PostResponse;
 
 import java.util.List;
 
@@ -29,5 +30,5 @@ public interface PostService {
     //search Posts
     List<Post> searchPost(String keyWord);
 
-    List<PostDto> pagination(Integer pageNumber, Integer pageSize);
+    PostResponse pagination(Integer pageNumber, Integer pageSize);
 }

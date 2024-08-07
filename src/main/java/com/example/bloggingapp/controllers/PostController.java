@@ -2,6 +2,7 @@ package com.example.bloggingapp.controllers;
 
 import com.example.bloggingapp.payloads.ApiResponse;
 import com.example.bloggingapp.payloads.PostDto;
+import com.example.bloggingapp.payloads.PostResponse;
 import com.example.bloggingapp.services.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -69,10 +70,10 @@ public class PostController {
 
     //pagination
     @GetMapping("/pageAble")
-    public ResponseEntity<List<PostDto>> pageAble(
-            @RequestParam(value = "pageNumber", defaultValue = "10", required = false)Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "1", required = false)Integer pageSize) {
-        List<PostDto> postDto = this.postService.pagination(pageNumber,pageSize);
-        return new ResponseEntity<List<PostDto>>(postDto, HttpStatus.OK);
+    public ResponseEntity<PostResponse> pageAble(
+            @RequestParam(value = "pageNumber", defaultValue = "10", required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize) {
+        PostResponse postResponse = this.postService.pagination(pageNumber, pageSize);
+        return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
 }

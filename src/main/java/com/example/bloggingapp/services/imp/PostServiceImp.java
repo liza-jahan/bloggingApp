@@ -5,6 +5,7 @@ import com.example.bloggingapp.entites.Post;
 import com.example.bloggingapp.entites.User;
 import com.example.bloggingapp.exception.ResourceNotFoundException;
 import com.example.bloggingapp.payloads.PostDto;
+import com.example.bloggingapp.payloads.PostResponse;
 import com.example.bloggingapp.repository.CategoryRepo;
 import com.example.bloggingapp.repository.PostRepo;
 import com.example.bloggingapp.repository.UserRepo;
@@ -97,12 +98,19 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public List<PostDto> pagination(Integer pageNumber, Integer pageSize) {
+    public PostResponse pagination(Integer pageNumber, Integer pageSize) {
 
         Pageable p = PageRequest.of(pageNumber, pageSize);
         Page<Post> postPage = this.postRepo.findAll(p);
         List<Post> posts = postPage.getContent();
         List<PostDto> postDtos = posts.stream().map(post -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-        return postDtos;
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(postDtos);
+        postResponse.setPageNumber(postPage.getNumber());
+        postResponse.setPageSize(postPage.getSize());
+        postResponse.setTotalElements(postPage.getNumberOfElements());
+        postResponse.setTotalPages(postPage.getTotalPages());
+        postResponse.setLastPage(postPage.isLast());
+        return postResponse;
     }
 }
