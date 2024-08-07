@@ -30,5 +30,5 @@ public interface PostService {
     //search Posts
     List<Post> searchPost(String keyWord);
 
-    PostResponse pagination(Integer pageNumber, Integer pageSize);
+    PostResponse pagination(Integer pageNumber, Integer pageSize,String sortBy,String sortDir);
 }
