@@ -11,6 +11,9 @@ import com.example.bloggingapp.repository.UserRepo;
 import com.example.bloggingapp.services.PostService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -91,5 +94,15 @@ public class PostServiceImp implements PostService {
     @Override
     public List<Post> searchPost(String keyWord) {
         return null;
+    }
+
+    @Override
+    public List<PostDto> pagination(Integer pageNumber, Integer pageSize) {
+
+        Pageable p = PageRequest.of(pageNumber, pageSize);
+        Page<Post> postPage = this.postRepo.findAll(p);
+        List<Post> posts = postPage.getContent();
+        List<PostDto> postDtos = posts.stream().map(post -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        return postDtos;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.bloggingapp.controllers;
 
-import com.example.bloggingapp.entites.Post;
 import com.example.bloggingapp.payloads.ApiResponse;
 import com.example.bloggingapp.payloads.PostDto;
 import com.example.bloggingapp.services.PostService;
@@ -66,5 +65,14 @@ public class PostController {
     public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId, @RequestBody PostDto postDto) {
         PostDto updatePost = this.postService.upadtePost(postDto, postId);
         return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
+    }
+
+    //pagination
+    @GetMapping("/pageAble")
+    public ResponseEntity<List<PostDto>> pageAble(
+            @RequestParam(value = "pageNumber", defaultValue = "10", required = false)Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "1", required = false)Integer pageSize) {
+        List<PostDto> postDto = this.postService.pagination(pageNumber,pageSize);
+        return new ResponseEntity<List<PostDto>>(postDto, HttpStatus.OK);
     }
 }
