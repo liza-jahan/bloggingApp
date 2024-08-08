@@ -1,5 +1,6 @@
 package com.example.bloggingapp.controllers;
 
+import com.example.bloggingapp.config.AppConstant;
 import com.example.bloggingapp.payloads.ApiResponse;
 import com.example.bloggingapp.payloads.PostDto;
 import com.example.bloggingapp.payloads.PostResponse;
@@ -71,10 +72,10 @@ public class PostController {
     //pagination
     @GetMapping("/pageAble")
     public ResponseEntity<PostResponse> pageAble(
-            @RequestParam(value = "pageNumber", defaultValue = "10", required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false)String sortDir) {
+            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstant.SORT_DIR, required = false)String sortDir) {
         PostResponse postResponse = this.postService.pagination(pageNumber, pageSize, sortBy,sortDir);
         return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
