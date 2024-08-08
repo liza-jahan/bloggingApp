@@ -1,6 +1,7 @@
 package com.example.bloggingapp.services.imp;
 
 import com.example.bloggingapp.services.FileService;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -8,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@Service
 public class FileServiceImp implements FileService {
     @Override
     public String uploadImage(String path, MultipartFile file) throws IOException {
@@ -29,7 +31,7 @@ public class FileServiceImp implements FileService {
         //file copy
         Files.copy(file.getInputStream(), Paths.get(fileName));
 
-        return name;
+        return fileName;
     }
 
     @Override
