@@ -78,4 +78,12 @@ public class PostController {
         PostResponse postResponse = this.postService.pagination(pageNumber, pageSize, sortBy,sortDir);
         return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
+
+    //search
+    @GetMapping("/posts/search/{keywords}")
+    public ResponseEntity<List<PostDto>> searchPostByTitle(@PathVariable String keywords){
+       List<PostDto> searchResult=this.postService.searchPost(keywords);
+       return new ResponseEntity<List<PostDto>>(searchResult,HttpStatus.OK);
+
+    }
 }
