@@ -1,12 +1,13 @@
 package com.example.bloggingapp.controllers;
 
+
 import com.example.bloggingapp.config.AppConstant;
 import com.example.bloggingapp.payloads.ApiResponse;
 import com.example.bloggingapp.payloads.PostDto;
 import com.example.bloggingapp.payloads.PostResponse;
 import com.example.bloggingapp.services.FileService;
 import com.example.bloggingapp.services.PostService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
     private final FileService fileService;
