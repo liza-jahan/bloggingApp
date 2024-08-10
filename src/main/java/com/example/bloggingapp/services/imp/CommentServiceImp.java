@@ -30,6 +30,8 @@ public class CommentServiceImp implements CommentService {
 
     @Override
     public void deleteComment(Integer commentId) {
+        Comment comment = this.commentRepo.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("comment", "commentId", commentId));
+        this.commentRepo.delete(comment);
 
     }
 }
