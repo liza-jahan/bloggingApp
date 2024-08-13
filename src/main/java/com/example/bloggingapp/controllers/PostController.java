@@ -7,6 +7,7 @@ import com.example.bloggingapp.payloads.PostDto;
 import com.example.bloggingapp.payloads.PostResponse;
 import com.example.bloggingapp.services.FileService;
 import com.example.bloggingapp.services.PostService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
