@@ -1,4 +1,4 @@
-package security;
+package com.example.bloggingapp.security;
 
 import com.example.bloggingapp.entites.User;
 import com.example.bloggingapp.exception.ResourceNotFoundException;

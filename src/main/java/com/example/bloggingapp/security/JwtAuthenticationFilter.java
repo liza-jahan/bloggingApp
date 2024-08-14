@@ -1,4 +1,4 @@
-package security;
+package com.example.bloggingapp.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -58,8 +58,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } else {
+            System.out.println("User name is null or context is not null");
 
         }
+        filterChain.doFilter(request, response);
 
     }
 }

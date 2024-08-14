@@ -1,4 +1,4 @@
-package security;
+package com.example.bloggingapp.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
