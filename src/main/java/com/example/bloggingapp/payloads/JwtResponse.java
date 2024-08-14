@@ -1,4 +1,4 @@
-package com.example.bloggingapp.security;
+package com.example.bloggingapp.payloads;
 
 import lombok.Data;
 
