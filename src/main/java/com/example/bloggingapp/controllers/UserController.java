@@ -33,13 +33,16 @@ public class UserController {
         UserDto updateUser = this.userService.updateUser(userDto, userId);
         return ResponseEntity.ok(updateUser);
     }
-
+//Admin
     //Delete user
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid) {
         this.userService.deleteUser(uid);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
     }
+
+
+
 
     //GET - all user
     @GetMapping("/")
