@@ -1,6 +1,7 @@
 package com.example.bloggingapp.model;
 
 import com.example.bloggingapp.entites.User;
+import com.example.bloggingapp.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

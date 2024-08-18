@@ -1,6 +1,5 @@
 package com.example.bloggingapp.config;
 
-
 import com.example.bloggingapp.auth.CustomUserDetailsService;
 import com.example.bloggingapp.auth.ExceptionHandlerFilter;
 import com.example.bloggingapp.auth.JwtTokenVerifierFilter;
@@ -17,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
 
 @EnableWebSecurity
 @Configuration
@@ -24,9 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtTokenVerifierFilter jwtTokenVerifierFilter;
-
     private final CustomUserDetailsService userDetailsService;
-
     private final ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Bean
@@ -36,11 +35,13 @@ public class SecurityConfig {
                 .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtTokenVerifierFilter, ExceptionHandlerFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users", "users/forgotPassword", "/auth/login",
-                                "/api/v1/auth/refresh", "/swagger-ui/**", "/v3/api-docs/**","users/resetPassword","/homes","homes/updateDetails",
-                                "/api-docs/**","/swagger-ui/index.html?**").permitAll()
-                        .anyRequest()
-                        .authenticated()
+                        .requestMatchers(
+                                "/users", "users/forgotPassword", "/auth/login",
+                                "/api/v1/auth/refresh", "/swagger-ui/**", "/v3/api-docs/**",
+                                "users/resetPassword", "/homes", "homes/updateDetails",
+                                "/api-docs/**", "/swagger-ui/index.html?**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -62,31 +63,21 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //    // Mark these fields as final to ensure they are injected via constructor
 //    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;

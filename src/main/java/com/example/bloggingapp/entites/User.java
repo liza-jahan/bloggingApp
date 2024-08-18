@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Setter
 @Getter
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+public class User extends BaseEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private int id;
     private String name;
     private String password;
     private String email;
@@ -37,34 +37,14 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-        return simpleGrantedAuthorities;
-    }
+    private boolean accountNonExpired;
 
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
+    private boolean accountNonLocked;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    private boolean credentialsNonExpired;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    private boolean enabled;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    private boolean verified;
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

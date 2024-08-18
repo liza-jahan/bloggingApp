@@ -1,8 +1,10 @@
 package com.example.bloggingapp.auth;
 
 import com.example.bloggingapp.entites.User;
+import com.example.bloggingapp.mapper.Mapper;
+import com.example.bloggingapp.model.CustomUserDetails;
 import com.example.bloggingapp.repository.UserRepo;
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -45,7 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
 
-}
+
 //
 //    private final UserRepo userRepo;
 //

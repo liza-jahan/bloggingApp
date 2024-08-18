@@ -1,6 +1,10 @@
 package com.example.bloggingapp.services.imp;
 
+import com.example.bloggingapp.config.AuthenticationProperties;
+import com.example.bloggingapp.exception.TimeExistException;
+import com.example.bloggingapp.exception.TokenExpiredException;
 import com.example.bloggingapp.model.CustomUserDetails;
+import com.example.bloggingapp.repository.TokenRepository;
 import com.example.bloggingapp.services.JwtService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -13,6 +17,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static io.jsonwebtoken.Jwts.*;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -25,7 +32,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateAccessToken(CustomUserDetails userDetails) {
 
-        List<SimpleGrantedAuthority> authoritiesList = (List<SimpleGrantedAuthority>)userDetails.getAuthorities();
+        List<SimpleGrantedAuthority> authoritiesList = (List<SimpleGrantedAuthority>) userDetails.getAuthorities();
 
         String authorities = authoritiesList.stream().map(SimpleGrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
@@ -74,8 +81,8 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String createPasswordResetToken(Optional<String> user) {
 
-        Map<String,Object> body=new HashMap<>();
-        body.put("userName",user.get());
+        Map<String, Object> body = new HashMap<>();
+        body.put("userName", user.get());
         byte[] key = authenticationProperties.getSecretKey().getBytes();
 
         return buildJwt(body, 60 * 15, key);
@@ -84,47 +91,43 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String verifyPasswordResetToken(String token) {
 
-        Jws <Claims> jwsClaims = null;
+        Jws<Claims> jwsClaims = null;
         byte[] key = authenticationProperties.getSecretKey().getBytes();
         try {
             jwsClaims = Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(key))
                     .build().parseClaimsJws(token);
 
-        }
-        catch (ExpiredJwtException expiredJwtException) {
+        } catch (ExpiredJwtException expiredJwtException) {
             log.info("Token has expired: {}", expiredJwtException.getMessage());
             throw new TokenExpiredException("Token has expired", expiredJwtException);
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException |
                  IllegalArgumentException e) {
-            log.info("token parssing fail {}",e.getMessage());
-            throw new TimeExistException(e.getMessage(),"1900-39-9");
+            log.info("token parssing fail {}", e.getMessage());
+            throw new TimeExistException(e.getMessage(), "1900-39-9");
         }
         Claims claims = jwsClaims.getBody();
-        String email= claims.get("userName", String.class);
+        String email = claims.get("userName", String.class);
 
 
-
-        return  email;
+        return email;
     }
 
 
-
-
-    private String buildJwt(Map<String, Object> body, Integer expiration, byte[] signingKey){
+    private String buildJwt(Map<String, Object> body, Integer expiration, byte[] signingKey) {
 
         try {
-            return Jwts.builder()
+            return builder()
                     .addClaims(body)
                     .setIssuedAt(new Date())
                     .setIssuer("self")
-                    .setSubject((String)body.get("username"))
+                    .setSubject((String) body.get("username"))
                     .setExpiration(java.sql.Timestamp.valueOf(LocalDateTime.now()
                             .plus(expiration, ChronoUnit.SECONDS)))
                     .signWith(Keys.hmacShaKeyFor(signingKey))
                     .compact();
 
-        } catch (JwtException e){
+        } catch (JwtException e) {
             throw new JwtException(e.getMessage());
         }
     }
