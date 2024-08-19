@@ -30,22 +30,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtTokenVerifierFilter, ExceptionHandlerFilter.class)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/users", "users/forgotPassword", "/auth/login",
-                                "/api/v1/auth/refresh", "/swagger-ui/**", "/v3/api-docs/**",
-                                "users/resetPassword", "/homes", "homes/updateDetails",
-                                "/api-docs/**", "/swagger-ui/index.html?**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+        http.csrf(AbstractHttpConfigurer::disable).addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class).addFilterAfter(jwtTokenVerifierFilter, ExceptionHandlerFilter.class).authorizeHttpRequests(auth -> auth.requestMatchers
+                ("/api/users", "/{userId}", "/", "/api/", "/swagger-ui/**",
+                        "/user/{userId}/category/{categoryId}/posts", "/user/{userId}/posts", "/category/{categoryId}/posts", "/posts", "/posts/**",
+                        "/deletePost/**", "/updatePost/**", "/posts/search/**",
+                        "/post/image/upload/**", "/api-docs/**", "/swagger-ui/index.html?**")
+                .permitAll()
+                .anyRequest()
+                .authenticated())
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
@@ -64,18 +58,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(10);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

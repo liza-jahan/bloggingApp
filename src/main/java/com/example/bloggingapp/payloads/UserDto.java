@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class UserDto {
 
-    private  int id;
+    private  Integer id;
     @NotNull
     private String name;
     @NotNull
