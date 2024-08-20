@@ -19,7 +19,7 @@ public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 //    @Column(columnDefinition = "VARCHAR(36)")
-   // @JdbcTypeCode(SqlTypes.VARCHAR)
+   // @JdbcTypeCode(SqlTypes.VARCHAR)     //convert integer to varchar
     private Integer id;
     private Date createdTime;
     private Date lastUpdateTime;
